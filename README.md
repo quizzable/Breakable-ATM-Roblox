@@ -1,7 +1,7 @@
 # Breakable-ATM-Roblox
 A breakable ATM that breaks when punched and drops money
 
-HOW TO USE 
+HOW TO USE (This is not a wallet system, money will not save in game, when the player clicks to pick up it will be erased from the game)
 
 To make the script work in Roblox Studio, follow these steps:
 
@@ -16,3 +16,11 @@ Click the "Play" button at the top of the screen to start the game.
 When the game starts, you should be able to punch the ATM 5 times to drop money on the ground. Players can pick up the money by clicking on it.
 Note: The ATM will not be able to be punched again until it refreshes, which takes 500 seconds. You can adjust this time by changing the refreshTime variable in the script.
 
+
+HOW THE MONEY WORKS
+
+In the script, the money is represented by a model object with several part objects inside of it. Each part represents a bill of money, and the model itself represents the bundle of money that is dropped on the ground.
+
+First, a new model object is created and named "Money". Then, a random value is chosen between 100 and 300 to determine the total amount of money to drop. A loop is used to create several part objects, each representing a bill of money. The parts are added to the "Money" model and are positioned at the same location as the ATM. Finally, the "Money" model is added to the game's workspace, which makes it appear in the game.
+
+Although the script does not include a specific model for the money, the part objects that are created can be seen and interacted with in the game. Players can pick up the money by clicking on it, and the money will disappear from the game once it is picked up.
