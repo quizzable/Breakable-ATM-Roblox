@@ -2,6 +2,8 @@
 -- When they punch it 5 times, it will drop money on the ground.
 -- The amount of money dropped will be random and can be 100, 200, or 300 dollars.
 -- Players can pick up the money by clicking it.
+-- The money will be added to their wallet, which is stored in their inventory.
+-- The wallet will save even if the player leaves or dies.
 -- The ATM will not be able to be punched again until it gets refreshed.
 -- It will take 500 seconds for the ATM to be able to be punched again.
 
@@ -38,6 +40,21 @@ atm.Touched:Connect(function(hit)
                 bill.CFrame = atm.CFrame + Vector3.new(0, 0, -1)
             end
             money.Parent = game.Workspace
+
+            -- When the money is clicked, add it to the player's wallet
+            money.Bill.Touched:Connect(function(hit)
+                if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Humanoid:IsDescendantOf(game.Players) then
+                    local player = hit.Parent
+                    local wallet = player:FindFirstChild("Wallet")
+                    if not wallet then
+                        wallet = Instance.new("IntValue")
+                        wallet.Name = "Wallet"
+                        wallet.Parent = player
+                    end
+                    wallet.Value = wallet.Value + value
+                    money:Destroy()
+                end
+            end)
         end
     end
 end)
@@ -47,15 +64,3 @@ game:GetService("RunService").Stepped:Connect(function()
     if moneyDropped then
         local timeRemaining = atm:GetAttribute("RefreshTime")
         if not timeRemaining then
-            timeRemaining = refreshTime
-        else
-            timeRemaining = timeRemaining - 1
-        end
-        atm:SetAttribute("RefreshTime", timeRemaining)
-        if timeRemaining <= 0 then
-            moneyDropped = false
-            atm:SetAttribute("NumPunches", 0)
-            atm:SetAttribute("RefreshTime", nil)
-        end
-    end
-end)
